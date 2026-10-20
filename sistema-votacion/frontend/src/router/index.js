@@ -1,8 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
-})
+import loginScreen from "../views/LoginScreen.vue";
+import votacionsScreen from "../views/VotacionsScreen.vue";
 
-export default router
+const routes = [
+  { path: "/", component: loginScreen },
+  { path: "/votacions", name: "votacions", component: votacionsScreen },
+];
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
