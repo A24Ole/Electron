@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted } from "vue";
 import botoVotar from "@/components/botoVotar.vue";
+import chartCanva from "@/components/chartCanva.vue";
 import { useAppStore } from "@/stores/app";
 import { conectar, votar, desconectar } from "@/services/communicationManager";
 
@@ -17,4 +18,5 @@ function manejarVoto(index) {
 
 <template>
   <botoVotar :votos="store.votos" @votar="manejarVoto" />
+  <chartCanva />
 </template>
