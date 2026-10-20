@@ -1,15 +1,24 @@
 <script setup>
 import { ref } from "vue";
+import { useAppStore } from "../stores/app";
 
-const emit = defineEmits(["login-ok"]);
+const store = useAppStore();
 
 const usuario = ref("");
 const password = ref("");
 const mensaje = ref("");
 
 function login() {
-  if (usuario.value === "user" && password.value === "123") {
-    emit("login-ok");
+  const valido =
+    (usuario.value === "user" || usuario.value === "admin") &&
+    password.value === "123";
+
+  if (valido) {
+    mensaje.value = "";
+    store.setLoginInfo({
+      loggedIn: true,
+      username: usuario.value,
+    });
   } else {
     mensaje.value = "Usuario o contraseña incorrectos.";
   }
