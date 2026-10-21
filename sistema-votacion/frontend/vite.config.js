@@ -6,6 +6,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Rutas relativas para que los assets carguen desde file:// en Electron
+  base: './',
   plugins: [
     vue(),
     vueDevTools(),
