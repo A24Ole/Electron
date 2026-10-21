@@ -10,6 +10,10 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  server: {
+    // En Docker sobre Windows/macOS los eventos del sistema de ficheros no llegan al contenedor
+    watch: { usePolling: process.env.VITE_USE_POLLING === 'true' },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

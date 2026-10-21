@@ -71,6 +71,8 @@ wss.on('connection', (ws) => {
   });
 });
 
-server.listen(3999, () => {
-  console.log('Servidor corriendo en http://localhost:3999');
+const PORT = process.env.PORT || 3999;
+
+server.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
