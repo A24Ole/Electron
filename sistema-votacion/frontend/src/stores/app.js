@@ -8,7 +8,7 @@ export const useAppStore = defineStore("app", () => {
     username: "",
     image: "",
   });
-  const votos = ref([1, 23, 0, 0]); // Un array per a 4 opcions
+  const votos = ref([0, 0, 0, 0]); // Un array per a 4 opcions (el servidor envia els reals en connectar)
 
   // Getters
   const isLoggedIn = computed(() => loginInfo.value.loggedIn);
