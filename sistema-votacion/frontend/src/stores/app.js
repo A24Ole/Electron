@@ -6,7 +6,6 @@ export const useAppStore = defineStore("app", () => {
   const loginInfo = ref({
     loggedIn: false,
     username: "",
-    image: "",
   });
   const votos = ref([0, 0, 0, 0]); // Un array per a 4 opcions (el servidor envia els reals en connectar)
 
@@ -14,8 +13,8 @@ export const useAppStore = defineStore("app", () => {
   const isLoggedIn = computed(() => loginInfo.value.loggedIn);
 
   // Actions
-  function setLoginInfo({ loggedIn, username, image }) {
-    loginInfo.value = { loggedIn, username, image };
+  function setLoginInfo({ loggedIn, username }) {
+    loginInfo.value = { loggedIn, username };
   }
 
   function setVotos(nousVots) {

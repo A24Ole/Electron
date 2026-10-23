@@ -1,0 +1,17 @@
+{
+  "app": { "title": "Sistema de votació" },
+  "idioma": "Idioma",
+  "login": {
+    "titulo": "Introdueix les teves dades",
+    "usuario": "Usuari",
+    "password": "Contrasenya",
+    "entrar": "Entrar",
+    "error": "Usuari o contrasenya incorrectes."
+  },
+  "votacion": {
+    "opcion": "Opció {n}",
+    "votar": "Votar",
+    "votos": "Vots",
+    "salir": "Tancar sessió"
+  }
+}

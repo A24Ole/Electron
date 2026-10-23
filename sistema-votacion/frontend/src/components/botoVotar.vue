@@ -1,4 +1,8 @@
 <script setup>
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+
 defineProps({
   votos: { type: Array, required: true },
 });
@@ -23,9 +27,9 @@ const colores = [
       :style="{ '--color': colores[index % colores.length] }"
       @click="emit('votar', index)"
     >
-      <span class="nom">Opció {{ index + 1 }}</span>
+      <span class="nom">{{ t("votacion.opcion", { n: index + 1 }) }}</span>
       <span class="vots">{{ cantidad }}</span>
-      <span class="accio">Votar</span>
+      <span class="accio">{{ t("votacion.votar") }}</span>
     </button>
   </div>
 </template>

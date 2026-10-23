@@ -1,29 +1,47 @@
 import { useAppStore } from "@/stores/app";
 
 class WebSocketService {
-  constructor(url) {
-    this.url = url;
+  // urls: lista de URLs a probar en orden (p. ej. ws://host:40000, ws://host:40001, ...)
+  constructor(urls) {
+    this.urls = Array.isArray(urls) ? urls : [urls];
+    this.indice = 0;
     this.socket = null;
+    this.cerradoManualmente = false;
     this.store = useAppStore();
   }
 
   connect() {
-    this.socket = new WebSocket(this.url);
+    const url = this.urls[this.indice];
+    let abierto = false;
+    this.socket = new WebSocket(url);
 
     this.socket.onopen = () => {
-      console.log("WebSocket connection established");
+      abierto = true;
+      console.log(`WebSocket connection established (${url})`);
     };
 
+    // El servidor envía siempre el array completo de votos
     this.socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      // Assuming the server sends the array of votes directly
-      console.log("votos inicializados");
-      this.store.setVotos(data);
+      this.store.setVotos(JSON.parse(event.data));
     };
 
     this.socket.onclose = () => {
+      if (this.cerradoManualmente) return;
+
+      // No se llegó a conectar: se prueba inmediatamente con el siguiente puerto
+      if (!abierto && this.indice < this.urls.length - 1) {
+        console.warn(
+          `No se pudo conectar a ${url}, probando el siguiente puerto...`,
+        );
+        this.indice++;
+        this.connect();
+        return;
+      }
+
+      // Se perdió la conexión o no respondió ningún puerto: se reintenta en 5 s.
+      // Si había conectado se mantiene el mismo puerto; si no, se vuelve a empezar.
+      if (!abierto) this.indice = 0;
       console.log("WebSocket connection closed");
-      // Optional: attempt to reconnect
       setTimeout(() => this.connect(), 5000);
     };
 
@@ -34,7 +52,6 @@ class WebSocketService {
 
   sendVote(optionIndex) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      // The message format will depend on the backend implementation
       this.socket.send(optionIndex);
     } else {
       console.error("WebSocket is not connected.");
@@ -42,6 +59,7 @@ class WebSocketService {
   }
 
   disconnect() {
+    this.cerradoManualmente = true;
     if (this.socket) {
       this.socket.close();
     }

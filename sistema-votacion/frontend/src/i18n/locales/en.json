@@ -1,0 +1,17 @@
+{
+  "app": { "title": "Voting system" },
+  "idioma": "Language",
+  "login": {
+    "titulo": "Enter your details",
+    "usuario": "Username",
+    "password": "Password",
+    "entrar": "Log in",
+    "error": "Incorrect username or password."
+  },
+  "votacion": {
+    "opcion": "Option {n}",
+    "votar": "Vote",
+    "votos": "Votes",
+    "salir": "Log out"
+  }
+}

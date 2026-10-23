@@ -1,0 +1,47 @@
+# Despliega la app en el servidor del centro cada vez que se hace push a main.
+# También se puede lanzar a mano desde la pestaña Actions ("Run workflow").
+#
+# Secrets necesarios:   SSH_HOST, SSH_USER, SSH_PASSWORD
+# Variables opcionales: DIR_FRONTEND, DIR_BACKEND, PUERTO (si no, usa los valores de deploy.sh)
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Nunca dos despliegues a la vez
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: sistema-votacion/frontend/package-lock.json
+
+      - name: Instalar dependencias del frontend
+        run: npm ci
+        working-directory: sistema-votacion/frontend
+
+      - name: Instalar sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Desplegar
+        run: bash deploy.sh
+        env:
+          # sshpass -e lee la contraseña de SSHPASS, así nunca aparece en la línea de comandos
+          SSHPASS: ${{ secrets.SSH_PASSWORD }}
+          SERVIDOR: ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+          SSH: sshpass -e ssh -o StrictHostKeyChecking=accept-new
+          SCP: sshpass -e scp -o StrictHostKeyChecking=accept-new
+          DIR_FRONTEND: ${{ vars.DIR_FRONTEND }}
+          DIR_BACKEND: ${{ vars.DIR_BACKEND }}
+          PUERTO: ${{ vars.PUERTO }}

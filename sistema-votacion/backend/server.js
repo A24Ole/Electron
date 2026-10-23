@@ -1,29 +1,26 @@
-import express from 'express';
-import cors from 'cors';
-import { createServer } from 'node:http';
-import { WebSocketServer } from 'ws';
-import fs from 'fs';
+import { createServer } from "node:http";
+import { WebSocketServer } from "ws";
+import fs from "fs";
 
-const app = express();
-app.use(cors());
-
-const server = createServer(app);
+// El servidor solo atiende WebSocket; una petición HTTP normal sirve para comprobar que está vivo
+const server = createServer((req, res) => {
+  res.end("Servidor de votación funcionando");
+});
 const wss = new WebSocketServer({ server });
 
-// 👈 1. Variable para almacenar los votos en memoria
 let votos = {};
 
-// 👈 2. Leemos el estado inicial de los votos desde el archivo JSON al iniciar
 try {
-  const data = fs.readFileSync('votos.json', 'utf8');
+  const data = fs.readFileSync("votos.json", "utf8");
   votos = JSON.parse(data);
-  console.log('Estado inicial de votos cargado desde votos.json');
+  console.log("Estado inicial de votos cargado desde votos.json");
 } catch (err) {
-  // Si el archivo no existe o hay un error, empezamos con un objeto vacío
-  console.error('No se pudo leer votos.json, se iniciará con un objeto vacío.', err.message);
+  console.error(
+    "No se pudo leer votos.json, se iniciará con un objeto vacío.",
+    err.message,
+  );
 }
 
-// Función para difundir (broadcast) un mensaje a todos los clientes conectados
 function broadcast(data) {
   const message = JSON.stringify(data);
   console.log("Enviando actualización a todos los clientes:", message);
@@ -34,20 +31,15 @@ function broadcast(data) {
   });
 }
 
-// Evento que se dispara cuando un cliente se conecta
-wss.on('connection', (ws) => {
-  console.log('Cliente conectado al WebSocket');
+wss.on("connection", (ws) => {
+  console.log("Cliente conectado al WebSocket");
 
-  // 👈 3. Enviamos el estado actual de los votos al nuevo cliente
-  // Ahora la variable 'votos' ya tiene los datos cargados.
   ws.send(JSON.stringify(votos));
 
-  // Evento que se dispara cuando se recibe un mensaje de un cliente
-  ws.on('message', (message) => {
+  ws.on("message", (message) => {
     const votedOption = message.toString();
     console.log("Llega una votación para:", votedOption);
 
-    // Actualizamos el recuento de votos si la opción existe
     if (votos.hasOwnProperty(votedOption)) {
       votos[votedOption]++;
     } else {
@@ -55,8 +47,7 @@ wss.on('connection', (ws) => {
       return;
     }
 
-    // Guardamos el JSON actualizado
-    fs.writeFile('votos.json', JSON.stringify(votos, null, 2), (err) => {
+    fs.writeFile("votos.json", JSON.stringify(votos, null, 2), (err) => {
       if (err) {
         console.error("Error al escribir en el archivo:", err);
         return;
@@ -66,13 +57,40 @@ wss.on('connection', (ws) => {
     });
   });
 
-  ws.on('close', () => {
-    console.log('Cliente desconectado');
+  ws.on("close", () => {
+    console.log("Cliente desconectado");
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PUERTO_INICIAL = Number(process.env.PORT) || 40000;
+const MAX_INTENTOS = 20;
 
-server.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+wss.on("error", () => {});
+
+function alFallarArranque(err) {
+  const puerto = this.puertoActual;
+  if (err.code === "EADDRINUSE" && puerto - PUERTO_INICIAL < MAX_INTENTOS) {
+    console.warn(
+      `El puerto ${puerto} está ocupado, probando con el ${puerto + 1}...`,
+    );
+    escuchar(puerto + 1);
+  } else {
+    console.error("No se pudo iniciar el servidor:", err.message);
+    process.exit(1);
+  }
+}
+
+function escuchar(puerto) {
+  server.puertoActual = puerto;
+  server.listen(puerto);
+}
+
+server.on("error", alFallarArranque);
+server.once("listening", () => {
+  server.off("error", alFallarArranque);
+  console.log(
+    `Servidor corriendo en http://localhost:${server.address().port}`,
+  );
 });
+
+escuchar(PUERTO_INICIAL);
