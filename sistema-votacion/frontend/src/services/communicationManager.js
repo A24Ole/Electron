@@ -27,7 +27,11 @@ export function conectar() {
 }
 
 export function votar(opcion) {
-  ws?.sendVote(opcion);
+  ws?.send(opcion);
+}
+
+export function reiniciarVotos() {
+  ws?.send("reset");
 }
 
 export function desconectar() {

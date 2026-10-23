@@ -22,6 +22,7 @@ Aplicación web de votación en la que todos los usuarios conectados ven los res
 - **Persistencia**: los votos se guardan en `backend/votos.json` y se conservan al reiniciar el servidor.
 - **Internacionalización**: español, català e English. El idioma se detecta del navegador, se puede cambiar desde el selector de la cabecera y se recuerda entre visitas.
 - **Login** con rutas protegidas: sin sesión iniciada no se puede acceder a la votación.
+- **Reinicio de votos para el admin**: el usuario `admin` tiene un botón para poner todos los contadores a 0 (pide confirmación).
 - **Reconexión automática**: si se pierde la conexión con el servidor, el cliente vuelve a conectarse solo.
 - **Versión de escritorio** con Electron.
 
@@ -42,7 +43,7 @@ sistema-votacion/
 │   └── votos.json         # Recuento de votos (uno por opción)
 ├── frontend/
 │   └── src/
-│       ├── components/    # Login, botones de voto, gráfica, selector de idioma
+│       ├── components/    # Login, botones de voto y de reset, gráfica, selector de idioma
 │       ├── i18n/          # Configuración de idiomas y traducciones (es, ca, en)
 │       ├── router/        # Rutas y protección de la ruta de votación
 │       ├── services/      # Conexión WebSocket con el backend

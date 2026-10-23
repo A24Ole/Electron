@@ -1,5 +1,7 @@
 {
-  "app": { "title": "Sistema de votació" },
+  "app": {
+    "title": "Sistema de votació"
+  },
   "idioma": "Idioma",
   "login": {
     "titulo": "Introdueix les teves dades",
@@ -12,6 +14,8 @@
     "opcion": "Opció {n}",
     "votar": "Votar",
     "votos": "Vots",
-    "salir": "Tancar sessió"
+    "salir": "Tancar sessió",
+    "reset": "Reiniciar vots",
+    "confirmarReset": "Segur que vols posar tots els vots a 0?"
   }
 }

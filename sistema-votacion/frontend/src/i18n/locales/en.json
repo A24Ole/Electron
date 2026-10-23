@@ -1,5 +1,7 @@
 {
-  "app": { "title": "Voting system" },
+  "app": {
+    "title": "Voting system"
+  },
   "idioma": "Language",
   "login": {
     "titulo": "Enter your details",
@@ -12,6 +14,8 @@
     "opcion": "Option {n}",
     "votar": "Vote",
     "votos": "Votes",
-    "salir": "Log out"
+    "salir": "Log out",
+    "reset": "Reset votes",
+    "confirmarReset": "Are you sure you want to set all votes to 0?"
   }
 }

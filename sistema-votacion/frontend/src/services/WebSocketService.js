@@ -50,9 +50,10 @@ class WebSocketService {
     };
   }
 
-  sendVote(optionIndex) {
+  // Mensajes: el índice de la opción votada, o "reset" para poner los votos a 0
+  send(mensaje) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(optionIndex);
+      this.socket.send(mensaje);
     } else {
       console.error("WebSocket is not connected.");
     }

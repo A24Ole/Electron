@@ -38,9 +38,12 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (message) => {
     const votedOption = message.toString();
-    console.log("Llega una votación para:", votedOption);
+    console.log("Llega un mensaje:", votedOption);
 
-    if (votos.hasOwnProperty(votedOption)) {
+    // "reset" pone todos los contadores a 0 (lo envía el botón del admin)
+    if (votedOption === "reset") {
+      votos = votos.map(() => 0);
+    } else if (votos.hasOwnProperty(votedOption)) {
       votos[votedOption]++;
     } else {
       console.warn(`La opción "${votedOption}" no existe en votos.json`);

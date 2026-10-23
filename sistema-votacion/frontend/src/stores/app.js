@@ -11,6 +11,7 @@ export const useAppStore = defineStore("app", () => {
 
   // Getters
   const isLoggedIn = computed(() => loginInfo.value.loggedIn);
+  const isAdmin = computed(() => loginInfo.value.username === "admin");
 
   // Actions
   function setLoginInfo({ loggedIn, username }) {
@@ -29,6 +30,7 @@ export const useAppStore = defineStore("app", () => {
     loginInfo,
     votos,
     isLoggedIn,
+    isAdmin,
     setLoginInfo,
     setVotos,
     registrarVoto,

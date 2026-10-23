@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import botoVotar from "@/components/botoVotar.vue";
 import chartCanva from "@/components/chartCanva.vue";
+import botoReset from "@/components/botoReset.vue";
 import { useAppStore } from "@/stores/app";
 import { conectar, votar, desconectar } from "@/services/communicationManager";
 
@@ -28,6 +29,7 @@ function salir() {
 <template>
   <div class="sesion">
     <span>{{ store.loginInfo.username }}</span>
+    <botoReset v-if="store.isAdmin" />
     <button class="salir" @click="salir">{{ t("votacion.salir") }}</button>
   </div>
   <botoVotar :votos="store.votos" @votar="manejarVoto" />
