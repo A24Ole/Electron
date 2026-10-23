@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#1f2937"/>
+  <!-- Cuatro barras con los colores de las opciones de voto -->
+  <rect x="9"  y="30" width="10" height="24" rx="2" fill="rgb(75, 192, 192)"/>
+  <rect x="21" y="18" width="10" height="36" rx="2" fill="rgb(255, 99, 132)"/>
+  <rect x="33" y="10" width="10" height="44" rx="2" fill="rgb(54, 162, 235)"/>
+  <rect x="45" y="24" width="10" height="30" rx="2" fill="rgb(255, 206, 86)"/>
+</svg>

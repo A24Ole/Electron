@@ -28,11 +28,11 @@ Aplicación web de votación en la que todos los usuarios conectados ven los res
 
 ## Tecnologías
 
-| Parte    | Tecnologías                                                  |
-| -------- | ------------------------------------------------------------ |
-| Frontend | Vue 3, Vite, Pinia, Vue Router, vue-i18n, Chart.js           |
-| Backend  | Node.js, ws (WebSocket)                                      |
-| Otros    | Electron (escritorio), Docker Compose (desarrollo), nodemon  |
+| Parte    | Tecnologías                                                 |
+| -------- | ----------------------------------------------------------- |
+| Frontend | Vue 3, Vite, Pinia, Vue Router, vue-i18n, Chart.js          |
+| Backend  | Node.js, ws (WebSocket)                                     |
+| Otros    | Electron (escritorio), Docker Compose (desarrollo), nodemon |
 
 ## Estructura del proyecto
 
@@ -89,11 +89,11 @@ Abre la URL que muestra Vite (normalmente `http://localhost:5173`) e inicia sesi
 
 ### Variables de entorno
 
-| Variable      | Dónde    | Descripción                                                      | Por defecto |
-| ------------- | -------- | ---------------------------------------------------------------- | ----------- |
-| `PORT`        | backend  | Puerto inicial del servidor                                      | `40000`     |
-| `VITE_WS_URL` | frontend | URL fija del WebSocket (p. ej. `ws://midominio:47652`)           | —           |
-| `VITE_WS_PORT`| frontend | Puerto inicial que prueba el cliente si no hay `VITE_WS_URL`     | `40000`     |
+| Variable       | Dónde    | Descripción                                                  | Por defecto |
+| -------------- | -------- | ------------------------------------------------------------ | ----------- |
+| `PORT`         | backend  | Puerto inicial del servidor                                  | `40000`     |
+| `VITE_WS_URL`  | frontend | URL fija del WebSocket (p. ej. `ws://midominio:47652`)       | —           |
+| `VITE_WS_PORT` | frontend | Puerto inicial que prueba el cliente si no hay `VITE_WS_URL` | `40000`     |
 
 Tienes un ejemplo en `frontend/.env.example`.
 
@@ -122,8 +122,6 @@ La configuración (servidor, carpetas y puerto) está al principio del script. P
    ```
 
    El contenido de `frontend/dist/` se sube a la carpeta pública de la web. Las rutas de los archivos son relativas, así que funciona también dentro de una subcarpeta como `/voting-app`.
-
-> El puerto del backend tiene que estar abierto en el firewall del servidor. Si la web se sirve por HTTPS, hace falta `wss://` mediante un proxy (Nginx/Apache).
 
 ## Aplicación de escritorio (Electron)
 
